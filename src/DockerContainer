@@ -1,0 +1,5 @@
+#Creating Docker Container and send its Logs like 5xx type and all logs to cloudwatch.
+# provide driver=awslogs, awslog-region , group-name, stream-name
+docker run --log-driver=awslogs --log-opt awslogs-region=us-west-1 \
+     --log-opt awslogs-group=Vultara-Schedular-Logs --log-opt awslogs-stream=containerName-Logs \
+     -d -p 4222:4000 --name winston-container -v /home/ubuntu/winston:/usr/src/app <image-name>
