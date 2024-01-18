@@ -1,3 +1,4 @@
+!/bin/bash
 sudo apt-get update -y
 #Install unzip package.
 sudo apt-get install unzip -y
