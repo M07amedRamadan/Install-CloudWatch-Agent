@@ -9,9 +9,10 @@ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv
 sudo unzip awscliv2.zip
 sudo ./aws/install
 # Retrieve the instance ID and instance name using the AWS CLI
-instance_id=$(aws ec2 describe-instances --query 'Reservations[0].Instances[0].InstanceId' --output text)
+instance_id=$(ec2metadata --instance-id)
 instance_name=$(aws ec2 describe-instances --instance-ids "$instance_id" --query 'Reservations[0].Instances[0].Tags[?Key==`Name`].Value' --output text)
-
+echo "The Instance ID is : ${instance_id}"
+echo "The Instance ID is : ${instance_name}"
 #Download CloudWatch Agent
 sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 #install amazon-cloudwatch-agent
@@ -28,6 +29,7 @@ sudo bash -c "cat <<EOF > '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatc
           {
             \"file_path\": \"/var/log/syslog\",
             \"log_group_name\": \"${instance_name}-Logs\"
+            \"log_stream_name\": \"${instance_name}-Stream\"
           }
         ]
       }
